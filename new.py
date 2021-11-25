@@ -112,7 +112,7 @@ class Fighter:
         self.last_shoot = time()
         self.hp = 3
 
-        self.gun_temp = 30
+        self.gun_temp = 0
         self.shoot_memory = False
         self.gun_last_cool = time()
 
@@ -228,7 +228,7 @@ while True:
             except KeyError:
                 pass
 
-    if fighter.shoot_memory is False and fighter.gun_temp > 30:
+    if fighter.shoot_memory is False and fighter.gun_temp > 0:
         if time() - fighter.gun_last_cool > 0.35:
             fighter.gun_temp -= 1
             fighter.gun_last_cool = time()
