@@ -250,6 +250,22 @@ while True:
         (63, 30)
     )
 
+    if 85 <= fighter.gun_temp < 90:
+        warn = font.render("위험! 포탑의 온도가 높습니다!", True, (255, 204, 77), (0, 0, 0))
+        screen.blit(
+            warn, ((screen.get_width() - warn.get_width()) / 2, 120)
+        )
+    elif 90 <= fighter.gun_temp < 95:
+        warn = font.render("경고! 포탑의 온도가 너무 높습니다!", True, (220, 20, 60), (0, 0, 0))
+        screen.blit(
+            warn, ((screen.get_width() - warn.get_width()) / 2, 120)
+        )
+    elif 95 <= fighter.gun_temp:
+        warn = font.render("경고! 냉각이 필요합니다!", True, (220, 20, 60), (0, 0, 0))
+        screen.blit(
+            warn, ((screen.get_width() - warn.get_width()) / 2, 120)
+        )
+
     pygame.display.update()
 
     if fighter.hp <= 0:
