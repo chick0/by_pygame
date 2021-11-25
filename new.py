@@ -13,7 +13,10 @@ mid_font = pygame.font.Font("font/NotoSansKR-Bold.otf", 32)
 big_font = pygame.font.Font("font/NotoSansKR-Bold.otf", 63)
 
 clock = pygame.time.Clock()
-pygame.display.set_caption("Space Invaders")
+pygame.display.set_caption("우주 침략자!")
+
+icon = pygame.image.load("images/icon.png")
+pygame.display.set_icon(icon)
 
 screen = pygame.display.set_mode((640, 650))
 
@@ -250,6 +253,9 @@ while True:
     pygame.display.update()
 
     if fighter.hp <= 0:
+        pygame.display.set_caption("우주 침략자! - 게임 오버")
+
+        # 게임 종료 시간 등록
         survive_time = score.timer_update()
 
         # 시간 점수
@@ -352,5 +358,8 @@ while True:
                     "fighter": Fighter(),
                     "missiles": {}
                 })
+
+                # 타이틀 초기화
+                pygame.display.set_caption("우주 침략자!")
 
             pygame.display.update()
