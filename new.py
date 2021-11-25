@@ -333,6 +333,12 @@ while True:
         elif 100 <= point:
             atk_bonus += 200
 
+        # 평화주의자 보너스
+        peace = 0
+
+        if fighter.total_shoot == 0:
+            peace += 2000
+
         # 종합점수
         total_score = time_score + atk_score + atk_bonus
 
