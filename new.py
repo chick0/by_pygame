@@ -9,6 +9,7 @@ from pygame.locals import *
 pygame.init()
 
 font = pygame.font.Font("font/NotoSansKR-Bold.otf", 16)
+mid_font = pygame.font.Font("font/NotoSansKR-Bold.otf", 32)
 big_font = pygame.font.Font("font/NotoSansKR-Bold.otf", 63)
 
 clock = pygame.time.Clock()
@@ -47,13 +48,10 @@ class Score:
     def __init__(self):
         self._start = time()
         self._end = time()
-        self._shoot = 0
+        self.shoot = 0
 
     def add_shoot_point(self) -> None:
-        self._shoot += 1
-
-    def get_shoot_score(self) -> int:
-        return self._shoot
+        self.shoot += 1
 
     def timer_update(self) -> int:
         self._end = time()
@@ -62,14 +60,6 @@ class Score:
     @property
     def survive(self) -> int:
         return round(self._end - self._start) * 5
-
-    @property
-    def shoot(self) -> int:
-        return self._shoot * 30
-
-    @property
-    def total(self) -> int:
-        return self.survive + self.shoot
 
 
 class BadGuy:
@@ -262,9 +252,72 @@ while True:
     if fighter.hp <= 0:
         survive_time = score.timer_update()
 
+        # 시간 점수
+        time_score = score.survive
+
+        # 공격 점수
+        atk_score = score.shoot * 30
+
+        # 명중 보너스
+        try:
+            point = round((score.shoot / fighter.total_shoot) * 100)
+        except ZeroDivisionError:
+            point = 0
+
+        atk_bonus = 0
+
+        if 0 <= point < 1:
+            atk_bonus += 0
+        if 1 <= point < 10:
+            atk_bonus += 3
+
+        elif 10 <= point < 20:
+            atk_bonus += 5
+
+        elif 20 <= point < 30:
+            atk_bonus += 10
+
+        elif 30 <= point < 40:
+            atk_bonus += 20
+
+        elif 40 <= point < 50:
+            atk_bonus += 30
+
+        elif 50 <= point < 55:
+            atk_bonus += 50
+        elif 55 <= point < 60:
+            atk_bonus += 55
+
+        elif 60 <= point < 65:
+            atk_bonus += 60
+        elif 65 <= point < 70:
+            atk_bonus += 65
+
+        elif 70 <= point < 75:
+            atk_bonus += 70
+        elif 75 <= point < 80:
+            atk_bonus += 75
+
+        elif 80 <= point < 85:
+            atk_bonus += 80
+        elif 85 <= point < 90:
+            atk_bonus += 90
+
+        elif 90 <= point < 95:
+            atk_bonus += 100
+        elif 95 <= point < 100:
+            atk_bonus += 150
+
+        elif 100 <= point:
+            atk_bonus += 200
+
+        # 종합점수
+        total_score = time_score + atk_score + atk_bonus
+
         game_over = True
         while game_over:
-            clock.tick(60)
+            clock.tick(15)
+            screen.fill((0, 0, 0))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     exit()
@@ -273,23 +326,25 @@ while True:
             xx = (screen.get_width() - ge.get_width()) / 2
             screen.blit(ge, (xx, 100))
 
-            sc_tp = big_font.render(f"{score.total} 점", True, (255, 255, 255), (0, 0, 0))
+            sc_tp = big_font.render(f"{total_score} 점", True, (255, 255, 255), (0, 0, 0))
             screen.blit(sc_tp, ((screen.get_width() - sc_tp.get_width()) / 2, 195))
 
-            s_text = font.render(f"공격 점수 : {score.shoot} 점", True, (255, 255, 255), (0, 0, 0))
-            t_text = font.render(f"시간 점수 : {score.survive} 점", True, (255, 255, 255), (0, 0, 0))
+            s_text = font.render(f"공격 점수 : {atk_score} 점", True, (255, 255, 255), (0, 0, 0))
+            t_text = font.render(f"시간 점수 : {time_score} 점", True, (255, 255, 255), (0, 0, 0))
+            b_text = font.render(f"명중 보너스 : {atk_bonus} 점 ({point}%)", True, (255, 255, 255), (0, 0, 0))
 
             screen.blit(s_text, (xx, 300))
             screen.blit(t_text, (xx, 330))
+            screen.blit(b_text, (xx, 360))
 
-            press_enter = font.render("[Enter]키를 눌러서 다시 시작", True, (255, 255, 255), (0, 0, 0))
-            screen.blit(press_enter, ((screen.get_width() - press_enter.get_width()) / 2, 400))
+            press_enter = mid_font.render("[Enter] 키를 눌러서 다시 시작", True, (255, 255, 255), (0, 0, 0))
+            screen.blit(press_enter, ((screen.get_width() - press_enter.get_width()) / 2, 450))
 
             _pressed_keys = pygame.key.get_pressed()
             if _pressed_keys[K_RETURN]:
                 game_over = False
 
-                # 전역변수를 초기화해서 게임상테 초기화
+                # 게임 초기화
                 globals().update({
                     "score": Score(),
                     "bad_guys": {},
