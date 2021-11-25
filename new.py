@@ -340,7 +340,18 @@ while True:
             peace += 2000
 
         # 종합점수
-        total_score = time_score + atk_score + atk_bonus
+        total_score = time_score + atk_score + atk_bonus + peace
+
+        # 폰트 렌더링
+        ge = big_font.render(" 게임종료 ", True, (255, 255, 255), (220, 20, 60))
+        sc_tp = big_font.render(f"{total_score} 점", True, (255, 255, 255), (0, 0, 0))
+
+        s_text = font.render(f"공격 점수 : {atk_score} 점", True, (255, 255, 255), (0, 0, 0))
+        t_text = font.render(f"시간 점수 : {time_score} 점", True, (255, 255, 255), (0, 0, 0))
+        b_text = font.render(f"명중 보너스 : {atk_bonus} 점 ({point}%)", True, (255, 255, 255), (0, 0, 0))
+        p_text = font.render("평화주의자 보너스 : 2000 점", True, (255, 204, 77), (0, 0, 0))
+
+        press_enter = mid_font.render("[Enter] 키를 눌러서 다시 시작", True, (255, 255, 255), (0, 0, 0))
 
         game_over = True
         while game_over:
@@ -350,22 +361,18 @@ while True:
                 if event.type == QUIT:
                     exit()
 
-            ge = big_font.render(" 게임종료 ", True, (255, 255, 255), (220, 20, 60))
             xx = (screen.get_width() - ge.get_width()) / 2
             screen.blit(ge, (xx, 100))
 
-            sc_tp = big_font.render(f"{total_score} 점", True, (255, 255, 255), (0, 0, 0))
             screen.blit(sc_tp, ((screen.get_width() - sc_tp.get_width()) / 2, 195))
-
-            s_text = font.render(f"공격 점수 : {atk_score} 점", True, (255, 255, 255), (0, 0, 0))
-            t_text = font.render(f"시간 점수 : {time_score} 점", True, (255, 255, 255), (0, 0, 0))
-            b_text = font.render(f"명중 보너스 : {atk_bonus} 점 ({point}%)", True, (255, 255, 255), (0, 0, 0))
 
             screen.blit(s_text, (xx, 300))
             screen.blit(t_text, (xx, 330))
             screen.blit(b_text, (xx, 360))
 
-            press_enter = mid_font.render("[Enter] 키를 눌러서 다시 시작", True, (255, 255, 255), (0, 0, 0))
+            if peace != 0:
+                screen.blit(p_text, (xx, 390))
+
             screen.blit(press_enter, ((screen.get_width() - press_enter.get_width()) / 2, 450))
 
             _pressed_keys = pygame.key.get_pressed()
