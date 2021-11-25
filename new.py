@@ -261,7 +261,7 @@ while True:
             warn, ((screen.get_width() - warn.get_width()) / 2, 120)
         )
     elif 95 <= fighter.gun_temp:
-        warn = font.render("경고! 냉각이 필요합니다!", True, (220, 20, 60), (0, 0, 0))
+        warn = font.render("경고! 포탑이 과부하 상태입니다!", True, (220, 20, 60), (0, 0, 0))
         screen.blit(
             warn, ((screen.get_width() - warn.get_width()) / 2, 120)
         )
