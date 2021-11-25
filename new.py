@@ -322,7 +322,7 @@ while True:
 
         game_over = True
         while game_over:
-            clock.tick(15)
+            clock.tick(10)
             screen.fill((0, 0, 0))
             for event in pygame.event.get():
                 if event.type == QUIT:
