@@ -39,6 +39,12 @@ life_images = {
 for life_img in life_images.values():
     life_img.set_colorkey((0, 0, 0))
 
+# 난이도 관련
+LV_COUNTER = 2
+BAD_GUY_SPEED_MIN = 2
+BAD_GUY_SPEED_MAX = 6
+#
+
 
 def safe_delete(some_object, key):
     try:
@@ -50,19 +56,13 @@ def safe_delete(some_object, key):
 class Score:
     def __init__(self):
         self._start = time()
-        self._end = time()
         self.shoot = 0
 
     def add_shoot_point(self) -> None:
         self.shoot += 1
 
-    def timer_update(self) -> int:
-        self._end = time()
-        return round(self._end - self._start)
-
-    @property
-    def survive(self) -> int:
-        return round(self._end - self._start) * 5
+    def get_survive_time(self) -> int:
+        return round(time() - self._start)
 
 
 class BadGuy:
@@ -71,8 +71,8 @@ class BadGuy:
 
         self.x = randint(0, 570)
         self.y = -100
-        self.dy = randint(2, 6)
-        self.dx = choice((-1, 1)) * self.dy
+        self.dy = randint(BAD_GUY_SPEED_MIN, BAD_GUY_SPEED_MAX)
+        self.dx = choice((-1, 1)) * randint(2, 6)
 
     def update(self):
         # move
@@ -268,14 +268,19 @@ while True:
 
     pygame.display.update()
 
+    # 난이도 증가!
+    lv = score.get_survive_time() / 10
+
+    if lv >= LV_COUNTER and BAD_GUY_SPEED_MIN <= 15:
+        LV_COUNTER += 1
+        BAD_GUY_SPEED_MIN += 2
+        BAD_GUY_SPEED_MAX += 2
+
     if fighter.hp <= 0:
         pygame.display.set_caption("우주 침략자! - 게임 오버")
 
-        # 게임 종료 시간 등록
-        survive_time = score.timer_update()
-
         # 시간 점수
-        time_score = score.survive
+        time_score = score.get_survive_time() * LV_COUNTER
 
         # 공격 점수
         atk_score = score.shoot * 30
@@ -347,7 +352,7 @@ while True:
         sc_tp = big_font.render(f"{total_score} 점", True, (255, 255, 255), (0, 0, 0))
 
         s_text = font.render(f"공격 점수 : {atk_score} 점", True, (255, 255, 255), (0, 0, 0))
-        t_text = font.render(f"시간 점수 : {time_score} 점", True, (255, 255, 255), (0, 0, 0))
+        t_text = font.render(f"시간 점수 : {time_score} 점 (x{LV_COUNTER})", True, (255, 255, 255), (0, 0, 0))
         b_text = font.render(f"명중 보너스 : {atk_bonus} 점 ({point}%)", True, (255, 255, 255), (0, 0, 0))
         p_text = font.render("평화주의자 보너스 : 2000 점", True, (255, 204, 77), (0, 0, 0))
 
@@ -385,7 +390,10 @@ while True:
                     "bad_guys": {},
                     "last_bad_guy_spawn_time": 0,
                     "fighter": Fighter(),
-                    "missiles": {}
+                    "missiles": {},
+                    "LV_COUNTER": 2,
+                    "BAD_GUY_SPEED_MIN": 2,
+                    "BAD_GUY_SPEED_MAX": 6
                 })
 
                 # 타이틀 초기화
