@@ -269,7 +269,7 @@ while True:
     pygame.display.update()
 
     # 난이도 증가!
-    lv = score.get_survive_time() / 10 + 10
+    lv = score.get_survive_time() / 10
 
     if lv >= LV_COUNTER and LV_COUNTER <= 12:
         LV_COUNTER += 1
