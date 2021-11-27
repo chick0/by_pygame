@@ -273,7 +273,7 @@ while True:
 
     if lv >= LV_COUNTER and BAD_GUY_SPEED_MIN <= 15:
         LV_COUNTER += 1
-        BAD_GUY_SPEED_MIN += 2
+        # BAD_GUY_SPEED_MIN += 2
         BAD_GUY_SPEED_MAX += 2
 
     if fighter.hp <= 0:
