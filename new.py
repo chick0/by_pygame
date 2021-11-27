@@ -269,12 +269,11 @@ while True:
     pygame.display.update()
 
     # 난이도 증가!
-    lv = score.get_survive_time() / 10
+    lv = score.get_survive_time() / 10 + 10
 
-    if lv >= LV_COUNTER and BAD_GUY_SPEED_MIN <= 15:
+    if lv >= LV_COUNTER and LV_COUNTER <= 12:
         LV_COUNTER += 1
-        # BAD_GUY_SPEED_MIN += 2
-        BAD_GUY_SPEED_MAX += 2
+        BAD_GUY_SPEED_MAX += 1
 
     if fighter.hp <= 0:
         pygame.display.set_caption("우주 침략자! - 게임 오버")
