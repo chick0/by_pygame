@@ -131,7 +131,7 @@ class Fighter:
             missiles[mid] = Missile(mid, x=self.x + 50)
 
             self.last_shoot = time()
-            self.gun_temp += 2
+            self.gun_temp += 0.5
             self.shoot_memory = True
 
             self.total_shoot += 1
@@ -246,7 +246,7 @@ while True:
     temp_text = font.render("부하율", True, (255, 255, 255), (0, 0, 0))
     screen.blit(temp_text, (60, 5))
     screen.blit(
-        font.render(f"{fighter.gun_temp} %", True, (255, 255, 255), (0, 0, 0)),
+        font.render(f"{round(fighter.gun_temp)} %", True, (255, 255, 255), (0, 0, 0)),
         (63, 30)
     )
 
