@@ -1,4 +1,3 @@
-from os import urandom
 from sys import exit
 from time import time
 from random import choice
@@ -118,13 +117,6 @@ class Fighter:
         self.total_shoot = 0
 
     def shoot(self):
-        def gen_mid() -> str:
-            t = urandom(4).hex()
-            if t in missiles.keys():
-                return gen_mid()
-
-            return t
-
         if self.gun_temp < 100 and time() - self.last_shoot > 0.14:
             new_mi = Missile(x=self.x + 50)
             missiles[new_mi.id] = new_mi
@@ -200,13 +192,6 @@ while True:
     fighter.update()
 
     if time() - last_bad_guy_spawn_time > 0.19:
-        def gen_bid() -> str:
-            t = urandom(4).hex()
-            if t in bad_guys.keys():
-                return gen_bid()
-
-            return t
-
         new_bg = BadGuy()
         bad_guys[new_bg.id] = new_bg
 
