@@ -66,9 +66,8 @@ class Score:
 
 
 class BadGuy:
-    def __init__(self, bid_):
-        self.id = bid_
-
+    def __init__(self):
+        self.id = id(self)
         self.x = randint(0, 570)
         self.y = -100
         self.dy = randint(BAD_GUY_SPEED_MIN, BAD_GUY_SPEED_MAX)
@@ -127,8 +126,8 @@ class Fighter:
             return t
 
         if self.gun_temp < 100 and time() - self.last_shoot > 0.14:
-            mid = gen_mid()  # mid == Missile ID
-            missiles[mid] = Missile(mid, x=self.x + 50)
+            new_mi = Missile(x=self.x + 50)
+            missiles[new_mi.id] = new_mi
 
             self.last_shoot = time()
             self.gun_temp += 0.5
@@ -165,8 +164,8 @@ class Fighter:
 
 
 class Missile:
-    def __init__(self, mid, x):
-        self.id = mid
+    def __init__(self, x):
+        self.id = id(self)
         self.x = x
         self.y = 591
 
@@ -208,9 +207,8 @@ while True:
 
             return t
 
-
-        bid = gen_bid()  # bid == BadGuy ID
-        bad_guys[bid] = BadGuy(bid)
+        new_bg = BadGuy()
+        bad_guys[new_bg.id] = new_bg
 
         last_bad_guy_spawn_time = time()
 
