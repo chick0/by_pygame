@@ -335,23 +335,23 @@ while True:
         elif 100 <= point:
             atk_bonus += 200
 
-        # 평화주의자 보너스
+        # 평화 주의자 보너스
         peace = 0
 
         if fighter.total_shoot == 0:
             peace += 2000
 
-        # 종합점수
+        # 종합 점수
         total_score = time_score + atk_score + atk_bonus + peace
 
         # 폰트 렌더링
-        ge = big_font.render(" 게임종료 ", True, (255, 255, 255), (220, 20, 60))
+        ge = big_font.render(" 게임 종료 ", True, (255, 255, 255), (220, 20, 60))
         sc_tp = big_font.render(f"{total_score} 점", True, (255, 255, 255), (0, 0, 0))
 
         s_text = font.render(f"공격 점수 : {atk_score} 점", True, (255, 255, 255), (0, 0, 0))
         t_text = font.render(f"시간 점수 : {time_score} 점 (x{LV_COUNTER})", True, (255, 255, 255), (0, 0, 0))
         b_text = font.render(f"명중 보너스 : {atk_bonus} 점 ({point}%)", True, (255, 255, 255), (0, 0, 0))
-        p_text = font.render("평화주의자 보너스 : 2000 점", True, (255, 204, 77), (0, 0, 0))
+        p_text = font.render("평화 주의자 보너스 : 2000 점", True, (255, 204, 77), (0, 0, 0))
 
         press_enter = mid_font.render("[Enter] 키를 눌러서 다시 시작", True, (255, 255, 255), (0, 0, 0))
 
